@@ -88,3 +88,5 @@ target/
 # Mypy cache
 .mypy_cache/
 /data/raw/worldbank/
+/data/raw/data/
+/data/raw/original/
