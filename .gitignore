@@ -90,3 +90,10 @@ target/
 /data/raw/worldbank/
 /data/raw/data/
 /data/raw/original/
+/notebooks/assignment2_p1_source_code.ipynb
+/notebooks/assignment3_part1-FINAL.ipynb
+/notebooks/assignment3_part1_source.ipynb
+/notebooks/assignment3_part2_source.ipynb
+/notebooks/exploratory_timeseries_v2.ipynb
+/notebooks/timeseries_lstm.ipynb
+/notebooks/auto_examples_jupyter/
