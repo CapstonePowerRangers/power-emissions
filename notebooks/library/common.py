@@ -40,9 +40,14 @@ class Core:
             'ghg_per_capita', 'methane_per_capita', 'nitrous_oxide_per_capita',
             'energy_per_capita', 'energy_per_gdp']
 
+        _new = [
+            'urban_population_percent', 'constant_gdp_per_capita', 'energy_intensity', 'manufacturing__pct', 'trade_openness', 
+            'renewable_energy_consumption_share', 'percent_of_environment_patent']
+
         self.all_features = []
         self.derived_features = []
         self.base_features = []
+        self.new_features = []
 
         self.base_features.extend(_essential)
         self.base_features.extend(_base)
@@ -50,9 +55,14 @@ class Core:
         self.derived_features.extend(_essential)
         self.derived_features.extend(_derived)
 
+        self.new_features.extend(_essential)
+        self.new_features.extend(_new)
+        
+
         self.all_features.extend(_essential)
         self.all_features.extend(_base)
         self.all_features.extend(_derived)
+        self.all_features.extend(_new)
 
         self.world = "all"
         self.regions = {'global': [self.world],

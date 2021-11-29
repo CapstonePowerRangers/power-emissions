@@ -97,3 +97,7 @@ target/
 /notebooks/exploratory_timeseries_v2.ipynb
 /notebooks/timeseries_lstm.ipynb
 /notebooks/auto_examples_jupyter/
+/notebooks/support-vector-clustering.ipynb
+/input/
+notebooks/clustering_analysis.ipynb
+
