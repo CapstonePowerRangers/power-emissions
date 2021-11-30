@@ -51,13 +51,13 @@ class Core:
 
         self.base_features.extend(_essential)
         self.base_features.extend(_base)
+        self.base_features.extend(_new)
 
         self.derived_features.extend(_essential)
         self.derived_features.extend(_derived)
 
         self.new_features.extend(_essential)
         self.new_features.extend(_new)
-        
 
         self.all_features.extend(_essential)
         self.all_features.extend(_base)
