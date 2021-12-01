@@ -98,6 +98,7 @@ target/
 /notebooks/timeseries_lstm.ipynb
 /notebooks/auto_examples_jupyter/
 /notebooks/support-vector-clustering.ipynb
+notebooks/temp.ipynb
 /input/
 notebooks/clustering_analysis.ipynb
 
