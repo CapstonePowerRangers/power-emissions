@@ -16,6 +16,14 @@ class Database:
 # Must always have these two features
 class Core:
     def __init__(self):
+        from pathlib import Path
+        import pandas as pd
+
+        processed_path = Path.cwd().parent/'data'
+        processed_path = processed_path/'processed'
+        processed_path = processed_path/'master_dataset.pkl'
+        full_path = processed_path.as_posix()
+        self.dataset = pd.read_pickle(full_path)
 
         _all = ['country', 'co2', 'consumption_co2', 'co2_growth_prct',
                 'co2_growth_abs', 'trade_co2', 'co2_per_capita', 'consumption_co2_per_capita',
@@ -53,7 +61,7 @@ class Core:
         _categorical = [
             'region', 'income_group']
 
-
+        _excluded = ['co2_emission_energy_subtotal',]
         _essential = ['iso_code', 'year']
 
         # These are the complete list of features from the dataset
@@ -65,20 +73,20 @@ class Core:
             'un_population', 'current_gdp', 'constant_gdp', 'manufacturing_gdp',
             'medium_to_high_tech_percent', 'export', 'import',
             'urban_population_percent', 'merchandise_export', 'merchandise_import',
-            'manufacturer_export_share', 'manufacturer_export', 'co2_emission_electricity',
+            'manufacturer_export', 'co2_emission_electricity',
             'co2_emission_building', 'co2_emission_manufacturing', 'co2_emission_other_fuel',
-            'co2_emission_fugitive', 'co2_emission_transport', 'co2_emission_energy_subtotal',
-            'co2_emission_bunkers', 'co2_emission_industrial_process', 'manufacturing_percent',
-            'medium_to_high_tech_gdp', 'trade_openness', 'share_of_merchandise_export',
-            'share_of_merchandise_import', 'industrial_gdp',  'iea_primary_energy_consumption',
+            'co2_emission_fugitive', 'co2_emission_transport',
+            'co2_emission_bunkers', 'co2_emission_industrial_process',
+            'medium_to_high_tech_gdp',  'industrial_gdp',  'iea_primary_energy_consumption',
             'renewable_energy_consumption', 'coal_consumption', 'oil_consumption',
             'total_electricity_production', 'electricity_production_from_renewable',
-            'primary_energy_consumption_per_capita', 'fossil_energy_consumption_share',
-            'renewable_electricity_production_share', 'energy_intensity',
-            'renewable_energy_consumption_share', 'percent_of_environment_patent',
-            'region', 'income_group']
+            'energy_intensity', 'percent_of_environment_patent'
+        ]
 
         _derived = [
+            'manufacturing_percent', 'manufacturer_export_share', 'trade_openness', 'share_of_merchandise_export',
+            'share_of_merchandise_import','primary_energy_consumption_per_capita', 'fossil_energy_consumption_share',
+            'renewable_electricity_production_share', 'renewable_energy_consumption_share',
             'co2_growth_prct', 'co2_growth_abs', 'co2_per_capita', 'consumption_co2_per_capita',
             'share_global_co2', 'cumulative_co2', 'share_global_cumulative_co2', 'co2_per_gdp',
             'consumption_co2_per_gdp', 'cement_co2_per_capita',
@@ -96,22 +104,20 @@ class Core:
             'co2_country_share_percent', 'manufacturing_country_share_percent'
         ]
 
-
-        self.all_features = []
-        self.derived_features = []
         self.base_features = []
-        self.categorical = []
-
         self.base_features.extend(_essential)
         self.base_features.extend(_base)
 
+        self.derived_features = []
         self.derived_features.extend(_essential)
         self.derived_features.extend(_derived)
 
+        self.all_features = []
         self.all_features.extend(_essential)
         self.all_features.extend(_base)
         self.all_features.extend(_derived)
 
+        self.categorical = []
         self.categorical.extend(_essential)
         self.categorical.extend((_categorical))
 
@@ -122,19 +128,14 @@ class Core:
                         }
         self.list_of_regions = [*self.regions]
         self.excluded_features = ['OWID_WRL']
-        #
-        # self.regression_features = self.base_features
-        _selected =[]
-        _selected.extend(_essential)
-        _selected.extend(['consumption_co2'])
+
         self.regression_features = self.all_features
         self.clustering_features = self.base_features
 
-def clean_column_names(df):
-    _new_col = []
-    for _col in df.columns:
-        _col = _col.lower()
-        _col = _col.replace(' ', '_')
-        _col = _col.replace(r'%', "_pct")
-        _new_col.append(_col)
-    return _new_col
+    def get_cluster_data(self, year):
+        df = self.dataset.copy()
+        df = df[df.year == year]
+        df = df[self.clustering_features].fillna(0)
+        return df
+
+
