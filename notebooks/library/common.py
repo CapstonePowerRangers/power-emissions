@@ -129,7 +129,15 @@ class Core:
         self.list_of_regions = [*self.regions]
         self.excluded_features = ['OWID_WRL']
 
-        self.regression_features = self.all_features
+        self.regression_features = [
+            'year', 'iso_code', 'region', 'income_group',
+            'co2', 'co2_emission_per_capita', 'co2_emission_per_constant_gdp',
+            'population', 'urban_population_percent', 'constant_gdp_per_capita',
+            'manufacturing_percent', 'manufacturing_country_share_percent', 'trade_openness',
+            'primary_energy_consumption_per_capita', 'renewable_energy_consumption_share',
+            'percent_of_environment_patent', 'energy_intensity'
+        ]
+
         self.clustering_features = self.base_features
 
     def get_cluster_data(self, year):
@@ -139,3 +147,17 @@ class Core:
         return df
 
 
+def clean_column_names(df):
+
+    cleaned_names = []
+    list_of_cols = list(df.columns)
+
+    for c in list_of_cols:
+        c = c.strip()
+        c = c.lower()
+        c = c.replace(".", "_")
+        c = c.replace(" ", "_")
+        c = c.replace("%", "_pct")
+        cleaned_names.append(c)
+
+    return cleaned_names
