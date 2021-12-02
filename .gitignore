@@ -88,7 +88,6 @@ target/
 # Mypy cache
 .mypy_cache/
 /data/raw/worldbank/
-/data/raw/data/
 /data/raw/original/
 /notebooks/assignment2_p1_source_code.ipynb
 /notebooks/assignment3_part1-FINAL.ipynb
@@ -100,9 +99,7 @@ target/
 /notebooks/support-vector-clustering.ipynb
 notebooks/pycaret_sample.ipynb
 notebooks/temp.ipynb
-/input/
 notebooks/clustering_analysis.ipynb
+*.icloud
+*.icloud
 
-*.icloud
-*.icloud
-/notebooks/
