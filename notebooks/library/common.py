@@ -41,7 +41,7 @@ class Core:
                 'share_global_cumulative_other_co2', 'total_ghg', 'ghg_per_capita', 'methane',
                 'methane_per_capita', 'nitrous_oxide', 'nitrous_oxide_per_capita', 'population',
                 'gdp', 'primary_energy_consumption', 'energy_per_capita', 'energy_per_gdp',
-                'un_population', 'current_gdp', 'constant_gdp', 'manufacturing_gdp',
+                'current_gdp', 'constant_gdp', 'manufacturing_gdp',
                 'medium_to_high_tech_percent', 'export', 'import', 'real_gdp_growth_percent',
                 'urban_population_percent', 'merchandise_export', 'merchandise_import',
                 'manufacturer_export_share', 'manufacturer_export', 'co2_emission_electricity',
@@ -70,7 +70,7 @@ class Core:
             'co2_per_unit_energy', 'coal_co2', 'cement_co2',
             'flaring_co2', 'gas_co2', 'oil_co2', 'other_industry_co2', 'total_ghg', 'methane',
             'nitrous_oxide', 'population', 'gdp', 'primary_energy_consumption',
-            'un_population', 'current_gdp', 'constant_gdp', 'manufacturing_gdp',
+            'current_gdp', 'constant_gdp', 'manufacturing_gdp',
             'medium_to_high_tech_percent', 'export', 'import',
             'urban_population_percent', 'merchandise_export', 'merchandise_import',
             'manufacturer_export', 'co2_emission_electricity',
@@ -145,6 +145,20 @@ class Core:
         df = df[df.year == year]
         df = df[self.clustering_features].fillna(0)
         return df
+
+    def features(self):
+        return list(self.dataset.columns)
+
+    def feature_data(self, feature = '', first = 0, last = 9999):
+        if len(feature) > 0:
+            f_list =['year', 'iso_code']
+            f_list.append(feature)
+        result = (self.dataset[f_list] if len(feature)>1 else self.dataset)
+
+        result = result[result.year.ge(first)]
+        result = result[result.year.le(last)]
+
+        return result
 
 
 def clean_column_names(df):
