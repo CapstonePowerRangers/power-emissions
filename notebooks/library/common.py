@@ -138,8 +138,23 @@ class Core:
             'percent_of_environment_patent', 'energy_intensity'
         ]
 
-        self.clustering_features = self.base_features
-
+        self.clustering_features = [
+            'year', 'iso_code', 'co2', 'consumption_co2', 'trade_co2',
+            'co2_per_unit_energy', 'coal_co2',
+            'gas_co2', 'oil_co2', 'other_industry_co2',
+            'population', 'gdp', 'primary_energy_consumption',
+            'current_gdp', 'constant_gdp', 'manufacturing_gdp',
+            'medium_to_high_tech_percent', 'export', 'import',
+            'urban_population_percent', 'merchandise_export', 'merchandise_import',
+            'manufacturer_export', 'co2_emission_electricity',
+            'co2_emission_manufacturing', 'co2_emission_other_fuel',
+            'co2_emission_fugitive', 'co2_emission_transport',
+            'co2_emission_industrial_process',
+            'medium_to_high_tech_gdp',  'industrial_gdp',  'iea_primary_energy_consumption',
+            'renewable_energy_consumption', 'coal_consumption', 'oil_consumption',
+            'total_electricity_production', 'electricity_production_from_renewable',
+            'energy_intensity', 'percent_of_environment_patent'
+        ]
     def get_cluster_data(self, year):
         df = self.dataset.copy()
         df = df[df.year == year]
