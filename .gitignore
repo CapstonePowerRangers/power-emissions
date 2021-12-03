@@ -97,7 +97,7 @@ target/
 /notebooks/timeseries_lstm.ipynb
 /notebooks/auto_examples_jupyter/
 /notebooks/support-vector-clustering.ipynb
-notebooks/pycaret_sample.ipynb
+notebooks/trial_pycaret_clustering.ipynb
 notebooks/temp.ipynb
 notebooks/clustering_analysis.ipynb
 *.icloud
