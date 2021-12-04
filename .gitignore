@@ -103,3 +103,5 @@ notebooks/clustering_analysis.ipynb
 *.icloud
 *.icloud
 
+/notebooks/mlruns/
+/venv-x/

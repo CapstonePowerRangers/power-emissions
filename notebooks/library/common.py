@@ -23,7 +23,10 @@ class Core:
         processed_path = processed_path/'processed'
         processed_path = processed_path/'master_dataset.pkl'
         full_path = processed_path.as_posix()
-        self.dataset = pd.read_pickle(full_path)
+        _dataset = pd.read_pickle(full_path)
+
+        self.dataset = _dataset[_dataset.iso_code != 'WLD']
+
 
         _all = ['country', 'co2', 'consumption_co2', 'co2_growth_prct',
                 'co2_growth_abs', 'trade_co2', 'co2_per_capita', 'consumption_co2_per_capita',
