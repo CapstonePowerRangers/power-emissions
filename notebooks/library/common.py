@@ -24,8 +24,9 @@ class Core:
         processed_path = processed_path/'master_dataset.pkl'
         full_path = processed_path.as_posix()
         _dataset = pd.read_pickle(full_path)
+        _dataset = _dataset[_dataset.iso_code != 'WLD']
 
-        self.dataset = _dataset[_dataset.iso_code != 'WLD']
+        self.dataset = _dataset
 
 
         _all = ['country', 'co2', 'consumption_co2', 'co2_growth_prct',
@@ -60,6 +61,36 @@ class Core:
                 'primary_energy_consumption_per_capita', 'fossil_energy_consumption_share',
                 'renewable_electricity_production_share', 'energy_intensity',
                 'renewable_energy_consumption_share', 'percent_of_environment_patent']
+
+        _relevant = ['co2', 'consumption_co2', 'co2_growth_prct',
+                     'co2_growth_abs', 'trade_co2', 'co2_per_capita', 'consumption_co2_per_capita',
+                     'share_global_co2', 'cumulative_co2', 'share_global_cumulative_co2', 'co2_per_gdp',
+                     'consumption_co2_per_gdp', 'co2_per_unit_energy',
+                     'coal_co2', 'coal_co2_per_capita',  'share_global_coal_co2', 'cumulative_coal_co2',  'share_global_cumulative_coal_co2',
+                     'gas_co2', 'oil_co2', 'gas_co2_per_capita', 'share_global_gas_co2', 'cumulative_gas_co2', 'share_global_cumulative_gas_co2',
+                     'oil_co2_per_capita', 'cumulative_oil_co2', 'share_global_cumulative_oil_co2',
+                     'other_co2_per_capita', 'trade_co2_share',
+                     'share_global_oil_co2', 'cumulative_other_co2',
+                     'share_global_other_co2', 'share_global_cumulative_other_co2',
+                     'population',
+                     'gdp',
+                     'primary_energy_consumption', 'energy_per_capita', 'energy_per_gdp',
+                     'current_gdp', 'constant_gdp', 'manufacturing_gdp',
+                     'medium_to_high_tech_percent', 'export', 'import', 'real_gdp_growth_percent',
+                     'urban_population_percent', 'merchandise_export', 'merchandise_import',
+                     'manufacturer_export_share', 'manufacturer_export', 'co2_emission_electricity',
+                      'co2_emission_other_fuel',
+                     'co2_emission_transport',
+                     'co2_emission_bunkers', 'co2_emission_industrial_process', 'co2_emission_per_capita',
+                     'constant_gdp_per_capita', 'manufacturing_percent', 'medium_to_high_tech_gdp',
+                     'co2_emission_per_constant_gdp', 'trade_openness', 'share_of_merchandise_export',
+                     'share_of_merchandise_import', 'industrial_gdp', 'co2_country_share_percent',
+                     'manufacturing_country_share_percent', 'iea_primary_energy_consumption',
+                     'renewable_energy_consumption', 'coal_consumption', 'oil_consumption',
+                     'total_electricity_production', 'electricity_production_from_renewable',
+                     'primary_energy_consumption_per_capita', 'fossil_energy_consumption_share',
+                     'renewable_electricity_production_share', 'energy_intensity',
+                     'renewable_energy_consumption_share', 'percent_of_environment_patent']
 
         _categorical = [
             'region', 'income_group']
@@ -120,17 +151,32 @@ class Core:
         self.all_features.extend(_base)
         self.all_features.extend(_derived)
 
+        self.relevant_features = []
+        self.relevant_features.extend(_essential)
+        self.relevant_features.extend(_relevant)
+
         self.categorical = []
         self.categorical.extend(_essential)
         self.categorical.extend((_categorical))
 
         self.world = "WLD"
-        self.regions = {'global': [self.world],
-                        'usa': ['USA'],
-                        'china': ['CHN']
-                        }
+
+        # Reads in the clustering information and returns iso codes for
+        # each country in the cluster.
+        from pathlib import Path
+        import json
+        _cluster_path = (Path.cwd().parent / 'data/processed/cluster_4.json').as_posix()
+        with open(_cluster_path, 'r') as _cluster_data:
+            _clustering = json.load(_cluster_data)
+        _c_df = pd.DataFrame.from_dict(_clustering, orient = 'columns')
+        _c_df = _c_df[['iso_code', 'Cluster']]
+        self.regions = _c_df.groupby('Cluster')['iso_code'].apply(list).to_dict()
         self.list_of_regions = [*self.regions]
         self.excluded_features = ['OWID_WRL']
+
+        # # override (temp) clusters
+        # self.list_of_regions = [self.world]
+
 
         self.regression_features = [
             'year', 'iso_code', 'region', 'income_group',
@@ -177,6 +223,34 @@ class Core:
         result = result[result.year.le(last)]
 
         return result
+
+    def check_start_override(self, feature, _default):
+
+        _override = {'co2_per_unit_energy': 1980,
+                     'co2_per_capita': 1950,
+                     'co2_per_gdp': 1950,
+                     'co2_emission_per_constant_gdp': 1970,
+                     'other_co2_per_capita': 1990,
+                     'oil_co2_per_capita': 1950,
+
+                     'primary_energy_consumption': 1980,
+                     'coal_consumption': 1971,
+                     'fossil_energy_consumption_share': 1971,
+                     'renewable_energy_consumption': 1990,
+                     'renewable_energy_consumption_share': 1990,
+                     'renewable_electricity_production_share': 1990,
+
+                     'manufacturer_export_share': 1989,
+
+                     'energy_per_capita': 1980,
+                     'energy_per_gdp': 1980,
+                     'constant_gdp_per_capita': 1970,
+                     'iea_primary_energy_consumption': 1971,
+                     'primary_energy_consumption_per_capita': 1971,
+                     'energy_intensity': 1990,
+                     }
+        _result = _override.get(feature)
+        return (_default if _result == None else _result)
 
 
 def clean_column_names(df):
