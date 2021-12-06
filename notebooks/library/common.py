@@ -79,7 +79,7 @@ class Core:
                      'medium_to_high_tech_percent', 'export', 'import', 'real_gdp_growth_percent',
                      'urban_population_percent', 'merchandise_export', 'merchandise_import',
                      'manufacturer_export_share', 'manufacturer_export', 'co2_emission_electricity',
-                      'co2_emission_other_fuel',
+                     'co2_emission_other_fuel',
                      'co2_emission_transport',
                      'co2_emission_bunkers', 'co2_emission_industrial_process', 'co2_emission_per_capita',
                      'constant_gdp_per_capita', 'manufacturing_percent', 'medium_to_high_tech_gdp',
@@ -165,7 +165,7 @@ class Core:
         # each country in the cluster.
         from pathlib import Path
         import json
-        _cluster_path = (Path.cwd().parent / 'data/processed/cluster_4.json').as_posix()
+        _cluster_path = (Path.cwd().parent / 'data/processed/cluster_3.json').as_posix()
         with open(_cluster_path, 'r') as _cluster_data:
             _clustering = json.load(_cluster_data)
         _c_df = pd.DataFrame.from_dict(_clustering, orient = 'columns')
@@ -190,14 +190,17 @@ class Core:
         self.clustering_features = [
             'year', 'iso_code', 'co2', 'consumption_co2', 'trade_co2',
             'co2_per_unit_energy', 'coal_co2',
-            'gas_co2', 'oil_co2', 'other_industry_co2',
+            'gas_co2', 'oil_co2',
+            # 'other_industry_co2',
             'population', 'gdp', 'primary_energy_consumption',
             'current_gdp', 'constant_gdp', 'manufacturing_gdp',
             'medium_to_high_tech_percent', 'export', 'import',
             'urban_population_percent', 'merchandise_export', 'merchandise_import',
             'manufacturer_export', 'co2_emission_electricity',
-            'co2_emission_manufacturing', 'co2_emission_other_fuel',
-            'co2_emission_fugitive', 'co2_emission_transport',
+            # 'co2_emission_manufacturing',
+            'co2_emission_other_fuel',
+            # 'co2_emission_fugitive',
+            'co2_emission_transport',
             'co2_emission_industrial_process',
             'medium_to_high_tech_gdp',  'industrial_gdp',  'iea_primary_energy_consumption',
             'renewable_energy_consumption', 'coal_consumption', 'oil_consumption',
@@ -229,9 +232,11 @@ class Core:
         _override = {'co2_per_unit_energy': 1980,
                      'co2_per_capita': 1950,
                      'co2_per_gdp': 1950,
-                     'co2_emission_per_constant_gdp': 1970,
+                     'co2_emission_per_constant_gdp': 1980,
                      'other_co2_per_capita': 1990,
                      'oil_co2_per_capita': 1950,
+
+                     'population': 1950,
 
                      'primary_energy_consumption': 1980,
                      'coal_consumption': 1971,
@@ -239,6 +244,8 @@ class Core:
                      'renewable_energy_consumption': 1990,
                      'renewable_energy_consumption_share': 1990,
                      'renewable_electricity_production_share': 1990,
+
+                     'percent_of_environment_patent': 1985,
 
                      'manufacturer_export_share': 1989,
 
