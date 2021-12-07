@@ -177,7 +177,6 @@ class Core:
         # # override (temp) clusters
         # self.list_of_regions = [self.world]
 
-
         self.regression_features = [
             'year', 'iso_code',
             # 'region', 'income_group',
@@ -193,7 +192,6 @@ class Core:
             # 'percent_of_environment_patent',
         ]
 
-
         self.clustering_features = [
             'year', 'iso_code', 'co2', 'consumption_co2', 'trade_co2',
             'co2_per_unit_energy', 'coal_co2',
@@ -208,16 +206,19 @@ class Core:
             'co2_emission_other_fuel',
             # 'co2_emission_fugitive',
             'co2_emission_transport',
-            'co2_emission_industrial_process',
-            'medium_to_high_tech_gdp',  'industrial_gdp',  'iea_primary_energy_consumption',
-            'renewable_energy_consumption', 'coal_consumption', 'oil_consumption',
+            # 'co2_emission_industrial_process',
+            'medium_to_high_tech_gdp',  'industrial_gdp',
+            # 'iea_primary_energy_consumption',
+            'renewable_energy_consumption',
+            # 'coal_consumption', 'oil_consumption',
             'total_electricity_production', 'electricity_production_from_renewable',
             'energy_intensity', 'percent_of_environment_patent'
         ]
-    def get_cluster_data(self, year):
+    def get_cluster_data(self, year, features = []):
+        features = (features if len(features) > 0 else self.clustering_features)
         df = self.dataset.copy()
         df = df[df.year == year]
-        df = df[self.clustering_features].fillna(0)
+        df = df[features].fillna(0)
         return df
 
     def features(self):
