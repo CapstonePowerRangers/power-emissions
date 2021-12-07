@@ -179,13 +179,20 @@ class Core:
 
 
         self.regression_features = [
-            'year', 'iso_code', 'region', 'income_group',
-            'co2', 'co2_emission_per_capita', 'co2_emission_per_constant_gdp',
-            'population', 'urban_population_percent', 'constant_gdp_per_capita',
-            'manufacturing_percent', 'manufacturing_country_share_percent', 'trade_openness',
-            'primary_energy_consumption_per_capita', 'renewable_energy_consumption_share',
-            'percent_of_environment_patent', 'energy_intensity'
+            'year', 'iso_code',
+            # 'region', 'income_group',
+            # 'co2', 'co2_emission_per_capita', 'co2_emission_per_constant_gdp',
+            'population', 'energy_intensity',
+            # 'urban_population_percent',
+            'constant_gdp_per_capita',
+            'manufacturing_percent',
+            # 'manufacturing_country_share_percent',
+            'trade_openness',
+            # 'primary_energy_consumption_per_capita',
+            'renewable_energy_consumption_share'
+            # 'percent_of_environment_patent',
         ]
+
 
         self.clustering_features = [
             'year', 'iso_code', 'co2', 'consumption_co2', 'trade_co2',
