@@ -165,26 +165,38 @@ class Core:
         # each country in the cluster.
         from pathlib import Path
         import json
-        _cluster_path = (Path.cwd().parent / 'data/processed/cluster_3.json').as_posix()
-        with open(_cluster_path, 'r') as _cluster_data:
-            _clustering = json.load(_cluster_data)
-        _c_df = pd.DataFrame.from_dict(_clustering, orient = 'columns')
-        _c_df = _c_df[['iso_code', 'Cluster']]
-        self.regions = _c_df.groupby('Cluster')['iso_code'].apply(list).to_dict()
-        self.list_of_regions = [*self.regions]
-        self.excluded_features = ['OWID_WRL']
+
+        try:
+            _cluster_path = (Path.cwd().parent / 'data/processed/final_cluster_3.json').as_posix()
+            with open(_cluster_path, 'r') as _cluster_data:
+                _clustering = json.load(_cluster_data)
+            _c_df = pd.DataFrame.from_dict(_clustering, orient = 'columns')
+            _c_df = _c_df[['iso_code', 'Cluster']]
+            self.regions = _c_df.groupby('Cluster')['iso_code'].apply(list).to_dict()
+            self.list_of_regions = [*self.regions]
+            self.excluded_features = ['OWID_WRL']
+        except:
+            pass
 
         # # override (temp) clusters
         # self.list_of_regions = [self.world]
 
 
         self.regression_features = [
-            'year', 'iso_code', 'region', 'income_group',
-            'co2', 'co2_emission_per_capita', 'co2_emission_per_constant_gdp',
-            'population', 'urban_population_percent', 'constant_gdp_per_capita',
-            'manufacturing_percent', 'manufacturing_country_share_percent', 'trade_openness',
-            'primary_energy_consumption_per_capita', 'renewable_energy_consumption_share',
-            'percent_of_environment_patent', 'energy_intensity'
+        'population',
+        'constant_gdp_per_capita',
+        'energy_intensity',
+        'manufacturing_percent',
+        'trade_openness',
+        'renewable_energy_consumption_share'
+
+
+            # 'year', 'iso_code', 'region', 'income_group',
+            # 'co2', 'co2_emission_per_capita', 'co2_emission_per_constant_gdp',
+            # 'population', 'urban_population_percent', 'constant_gdp_per_capita',
+            # 'manufacturing_percent', 'manufacturing_country_share_percent', 'trade_openness',
+            # 'primary_energy_consumption_per_capita', 'renewable_energy_consumption_share',
+            # 'percent_of_environment_patent', 'energy_intensity'
         ]
 
         self.clustering_features = [
