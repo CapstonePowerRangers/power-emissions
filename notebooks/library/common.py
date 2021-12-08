@@ -173,16 +173,22 @@ class Core:
             _c_df = pd.DataFrame.from_dict(_clustering, orient = 'columns')
             _c_df = _c_df[['iso_code', 'Cluster']]
             self.regions = _c_df.groupby('Cluster')['iso_code'].apply(list).to_dict()
+            self.regions['Global'] = [self.world]
             self.list_of_regions = [*self.regions]
             self.excluded_features = ['OWID_WRL']
+
         except:
             pass
 
         # # override (temp) clusters
         # self.list_of_regions = [self.world]
 
+        self.co2_features = [
+            'year', 'iso_code', 'co2'
+        ]
 
         self.regression_features = [
+        'year', 'iso_code',
         'population',
         'constant_gdp_per_capita',
         'energy_intensity',
