@@ -237,13 +237,38 @@ class Core:
     def feature_data(self, feature = '', first = 0, last = 9999):
         if len(feature) > 0:
             f_list =['year', 'iso_code']
-            f_list.append(feature)
+            if isinstance(feature, list):
+                print(type(feature))
+                f_list.extend(feature)
+            else:
+                f_list.append(feature)
         result = (self.dataset[f_list] if len(feature)>1 else self.dataset)
 
         result = result[result.year.ge(first)]
         result = result[result.year.le(last)]
-
         return result
+
+
+    def get_cluster_regression_datas(self,
+                                     cluster = 'Global',
+                                     first = 0,
+                                     last = 9999):
+
+        _df = self.dataset.copy()
+
+        if not(cluster == 'Global'):
+            _df = _df[_df.iso_code.isin(self.regions.get(cluster))]
+
+        _selected = self.regression_features
+        _selected.append('co2')
+        _df = _df[_selected]
+        _df = _df[_df.year.ge(first)]
+        _df = _df[_df.year.le(last)]
+
+        _df = _df.drop (columns = 'iso_code')
+        _df = _df.groupby('year').sum()
+
+        return _df.reset_index(drop = True)
 
     def check_start_override(self, feature, _default):
 
