@@ -19,6 +19,15 @@ class Core:
         from pathlib import Path
         import pandas as pd
 
+        self.regression_cv = 5
+        self.error_optimise = 'MSE'
+        self.regression_normalize = True
+        self.normalize_method = 'minmax'
+        self.remove_outliers = False
+        self.outliers_threshold = 0.05
+        self.start_year = 1971
+        self.stop_year = 2020
+
         processed_path = Path.cwd().parent/'data'
         processed_path = processed_path/'processed'
         processed_path = processed_path/'master_dataset.pkl'
@@ -334,6 +343,7 @@ class Core:
                 _r = _r.append(_cdf)
         _r.year = _r.year.astype('int')
         return _r
+
 
 
 def clean_column_names(df):
