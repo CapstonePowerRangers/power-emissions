@@ -235,6 +235,7 @@ class Core:
         return list(self.dataset.columns)
 
     def feature_data(self, feature = '', first = 0, last = 9999):
+        f_list = []
         if len(feature) > 0:
             f_list =['year', 'iso_code']
             if isinstance(feature, list):
@@ -255,16 +256,16 @@ class Core:
                                      last = 9999):
 
         _df = self.dataset.copy()
+        _selected = self.regression_features.copy()
+
+        _selected.append('co2')
 
         if not(cluster == 'Global'):
             _df = _df[_df.iso_code.isin(self.regions.get(cluster))]
 
-        _selected = self.regression_features
-        _selected.append('co2')
         _df = _df[_selected]
         _df = _df[_df.year.ge(first)]
         _df = _df[_df.year.le(last)]
-
         _df = _df.drop (columns = 'iso_code')
         _df = _df.groupby('year').sum()
 
@@ -301,6 +302,38 @@ class Core:
                      }
         _result = _override.get(feature)
         return (_default if _result == None else _result)
+
+    def get_forecasts(self):
+        import pickle
+        import pandas as pd
+        from pathlib import Path
+        cwd = Path.cwd()
+        fc_path = cwd.parent / r'data/processed/ts_forecast.pkl'
+
+        with open(fc_path, 'rb') as fc_file:
+            _df = pd.DataFrame(pickle.load(fc_file), columns = ['cluster', 'feature', 'forecast'])
+
+        _r = []
+        _c_list = list(_df.cluster.unique())
+        _f_list = list(_df.feature.unique())
+
+        for _c in _c_list:
+            _cdf = pd.DataFrame()
+            for _f in _f_list:
+                _fc = _df.loc[_df.feature.eq(_f) & _df.cluster.eq(_c), 'forecast'].copy().to_numpy()
+                _fc = pd.DataFrame(_fc[0], columns = ['year', _f])
+                if len(_cdf) == 0:
+                    _cdf = _fc
+                else:
+                    _f_fc = _fc.loc[:, _f]
+                    _cdf = _cdf.join(_f_fc)
+                _cdf['cluster'] = _c
+            if len(_r) == 0:
+                _r = _cdf.copy()
+            else:
+                _r = _r.append(_cdf)
+        _r.year = _r.year.astype('int')
+        return _r
 
 
 def clean_column_names(df):
