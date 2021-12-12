@@ -25,6 +25,7 @@ class Core:
         self.normalize_method = 'minmax'
         self.remove_outliers = False
         self.outliers_threshold = 0.05
+        self.silent_mode = True
         self.start_year = 1971
         self.stop_year = 2020
 
