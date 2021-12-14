@@ -27,7 +27,7 @@ class Core:
         self.outliers_threshold = 0.05
         self.silent_mode = True
         self.start_year = 1971
-        self.stop_year = 2020
+        self.stop_year = 2016
 
         processed_path = Path.cwd().parent/'data'
         processed_path = processed_path/'processed'

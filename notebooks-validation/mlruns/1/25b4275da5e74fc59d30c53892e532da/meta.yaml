@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/koonleong/Documents/UM/UMMADS/Courses%20-%20Current/SIADS697-Capstone/power_emissions/notebooks-validation/mlruns/1/25b4275da5e74fc59d30c53892e532da/artifacts
+end_time: 1639495385683
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: 25b4275da5e74fc59d30c53892e532da
+run_uuid: 25b4275da5e74fc59d30c53892e532da
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1639495385577
+status: 3
+tags: []
+user_id: koonleong
