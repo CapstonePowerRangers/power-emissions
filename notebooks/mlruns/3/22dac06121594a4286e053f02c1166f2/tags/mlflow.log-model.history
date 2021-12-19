@@ -1,1 +1,0 @@
-[{"run_id": "22dac06121594a4286e053f02c1166f2", "artifact_path": "model", "utc_time_created": "2021-12-04 03:39:41.414442", "flavors": {"sklearn": {"pickled_model": "model.pkl", "sklearn_version": "0.23.2", "serialization_format": "cloudpickle"}}}]
