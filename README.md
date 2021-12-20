@@ -22,13 +22,13 @@ Unfortunately, it is almost an impossibility for governments to curb or reduce t
 
 Method
 --
-The stragegy is to develop two different approaches to predict the level of CO2 emission.  These approaches are:
+The strategy is to develop two different approaches to predict the level of CO2 emission.  These approaches are:
 1. Panel Regression 
 2. Supervised Learning Regression
 
-To generate the input predict the input features for the forecats, time-series analysis were used.
+To generate the input predict the input features for the forecasts, time-series analysis were used.
 
-To improve the accuracy of the time series forecasts, Unsupervised Learnign Clustering was used.  The Time Series models were optimized for each cluster and the outputs were used as input parameters for the regression models.
+To improve the accuracy of the time series forecasts, Unsupervised Learning Clustering was used.  The Time Series models were optimized for each cluster and the outputs were used as input parameters for the regression models.
 
 Machine Learning models can produce accurate forecasts but it does not lend itself to intprepretation.  Whilst an analysis of the feature inportance can provide an indication of the relative impact of the features on the dependent variable, it does not provide a quantitative measure of the impact.
 
@@ -45,56 +45,83 @@ The following are key libraries used int he analysis:
 2. PyCaret - used for automated grid search to identify the beast performaning algorithm for clustering as well as for supervise learning regression.  It will help tune the models for optimal accuracy.
 3. PanelOLS - used to developed the Panel Regression models
 
+Pipeline
+--
+The Jupyter Notebooks are organised and numbered in sequence. The pipeline should be executed in sequence order.
 
+The data is prepaerd off-line and different datasets are merged into a master table using the ISO Country Code.  The following routines are used to manage the data.<br>
+<br>
+**1. Data Preparation**
+* 1.1 **data_upload_manifest** - Uploads xls/xlsx/csv files into the database based on a manifests defined in the manifest spreadshet.
+* 1.2 **load_dataset_to_pickle** - Downloads master dataset into a pickle to reduce dataloading time
+* 1.3 **identify_data_start_end** - Checks all the dataset to identify start and end of time series <br>
 
+**2. Clustering and Time Series**
+* 2.1 **find_clustering_model** - Determines the ideal clustering method and the number of clusters
+* 2.2 **create_ts_models** - Optimizes the time series models for forecasting
+* 2.3 **generate_ts_forecasts** - creates the forecasts for use in regression predictions<br>
+
+**3. Predictions**
+* 3.1 **Panel Regression**
+* 3.1.1 **create_panel_model** - Creates the panel regression model to be sued for analysis
+* 3.1.2 **panel_regression_model_predict_2017_2020_and_2025** - performs the panel regression prediction based on the inptus from the Time Series forecasts.
+
+* 3.2 **Supervised Learning Regression**
+* 3.2.1 **create_regression_prediction_c0** - Identify and optimize the regression model for Cluster 0
+* 3.2.2 **create_regression_prediction_c1** - Identify and optimize the regression model for Cluster 1
+* 3.2.3 **create_regression_prediction_c2** - Identify and optimize the regression model for Cluster 2
+* 3.2.4 **create_regression_prediction_c3** - Identify and optimize the regression model for Global
+
+**4. Reports Support**
+* 4.1 **report_appendix_a_charts** - Prepares charts used in Appendix 1 of blog post.
+* 4.2 **report_pairwise_cosine similarity** - Performs Cosine Similarity analysis between China and the rest of the world
 
 Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── Makefile           <- (NOT USED) Makefile with commands like `make data` or `make train`
+    ├── README.md          <- (NOT USED) The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
+    │   ├── external       <- (NOT USED) Data from third party sources.
+    │   ├── interim        <- (NOT USED) Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
+    ├── docs               <- (NOT USED) A default Sphinx project; see sphinx-doc.org for details
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
+    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering), and a short `-` delimited description, e.g.
     │                         `1.0-jqp-initial-data-exploration`.
     │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    ├── references         <- (NOT USED) Data dictionaries, manuals, and all other explanatory materials.
     │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+    ├── reports            <- (NOT USED) Generated analysis as HTML, PDF, LaTeX, etc.
     │   └── figures        <- Generated graphics and figures to be used in reporting
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
+    ├── setup.py           <- (NOT USED) makes project pip installable (pip install -e .) so src can be imported
+    ├── src                <- (NOT USED) Source code for use in this project.
+    │   ├── __init__.py    <- (NOT USED) Makes src a Python module
     │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
+    │   ├── data           <- (NOT USED) Scripts to download or generate data
+    │   │   └── (NOT USED) make_dataset.py
     │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
+    │   ├── features       <- (NOT USED) Scripts to turn raw data into features for modeling
+    │   │   └── (NOT USED) build_features.py
     │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
+    │   ├── models         <- (NOT USED) Scripts to train models and then use trained models to make
     │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
+    │   │   ├── (NOT USED) predict_model.py
+    │   │   └── (NOT USED) train_model.py
     │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    │   └── visualization  <- (NOT USED) Scripts to create exploratory and results oriented visualizations
+    │       └── (NOT USED) visualize.py
     │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    └── tox.ini            <- (NOT USED) tox file with settings for running tox; see tox.readthedocs.io
 
 
 --------
